@@ -60,3 +60,6 @@ app.*.map.json
 .flutter-plugins-dependencies
 build/
 **/build/
+
+app/linux/
+app/macos/
