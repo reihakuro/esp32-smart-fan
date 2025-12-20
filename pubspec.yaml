@@ -1,0 +1,31 @@
+name: smart_fan_app
+description: "A new Flutter project."
+publish_to: 'none'
+
+version: 1.1.1+1
+
+environment:
+  sdk: '>=3.10.1 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  cupertino_icons: ^1.0.8
+  
+  # Dùng bản mới nhất để tránh lỗi Registrar
+  permission_handler: ^11.3.0 
+  
+  # Dùng bản gốc từ pub.dev
+  flutter_bluetooth_serial: ^0.4.0
+  shared_preferences: ^2.2.0
+  intl: ^0.18.1
+  google_fonts: ^6.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
