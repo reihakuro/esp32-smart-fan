@@ -17,18 +17,25 @@ An ESP32-based fan controller system for a DC motor (manual and automatic speed 
   - Real-time temperature and humidity
  
 ## Schematic
-### Electronic components use
-- Mandatory
-  - Microcontroller: ESP-WROOM-32
+### Hardware components
+- Mandatory:
+  - Microcontroller: ESP-WROOM-32 (Wifi & Bluetooth Inside)
   - Sensor: DHT-11 Sensor
   - Motor: R140 DC motor
-  - S8050-D 25V 1.5A BJT
-  - 220Ω Resistor
+  - BJT: S8050-D 25V 1.5A with 220Ω Resistor 
   - 1N4007 Diode
-- Optional
-  - LEDs
+  - 2 4-leg tactile switches, 2 22kΩ pull-up resistors 
+  - 5VDC seperated source DC motor 
+  - Some wires
+- Optional:
+  - LEDs and resistors for LEDs
 
-| GPIO | Connect | Usage |
+### Pins 
+| Pin | Connect | Usage |
 |----------|-----------|--------|
 | 16 | DC Motor | PWM control |
 | 14 | DHT-11 Sensor | Received signal |
+| 32 | Button | Mode switch |
+| 33 | Button | PWM Level switch |
+
+### 
