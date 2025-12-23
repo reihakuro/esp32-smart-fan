@@ -2,7 +2,7 @@
 
 An ESP32-based fan controller system for a DC motor (manual and automatic speed control) with a custom Android app built using Flutter
 
-## Features
+## I. Features
 - DC motor speed control using PWM 
   - **PWM Mode**: Manual control of fan speed with 4 levels: OFF, Level 1, Level 2, Level 3
   - **Automation Mode**: Fan speed is automatically adjusted based on temperature data from the sensor
@@ -14,20 +14,20 @@ An ESP32-based fan controller system for a DC motor (manual and automatic speed 
   - Control fan speed, mode
   - Real-time temperature and humidity from sensor
  
-## Hardware Schematic
-### Schematic Diagram
+## II. Hardware Schematic & Structure
+### 1. Schematic Diagram
 
-ESP32 <br>
- ├─ PWM → BJT → DC Motor <br>
- ├─ GPIO → Buttons <br>
- ├─ GPIO → LEDs <br>
- ├─ GPIO → DHT11 <br>
- └─ Bluetooth → Flutter App <br>
+`ESP32` <br>
+ ├─ `PWM` → `BJT` → `DC Motor` <br>
+ ├─ `GPIO` → `Buttons` <br>
+ ├─ `GPIO` → `LEDs` <br>
+ ├─ `GPIO` → `DHT11` <br>
+ └─ `Bluetooth` → `Flutter App` <br>
  
 ![Schematic Diagram](preview/Schematic.png)
 
 
-### Hardware Components
+### 2. Hardware Components
 - Mandatory:
   - Microcontroller: ESP-WROOM-32 
   - Sensor: DHT-11 Sensor
@@ -40,7 +40,7 @@ ESP32 <br>
 - Optional:
   - LEDs and 220Ω resistors for LEDs
 
-### Pins 
+### 3. Pins 
 | Pin | Connect | Usage | Pin | Connect | Usage |
 |----------|-----------|--------|----------|-----------|--------|
 | 16 | DC Motor | PWM control | 04 | LED | Bluetooth connectivity indicator |
@@ -48,18 +48,44 @@ ESP32 <br>
 | 32 | Button | Mode switch | 05 | LED | Send data to phone indicator |
 | 33 | Button | PWM Level switch | 18 | LED | Mode indicator |
 
-### Design Notes
+### 4. Design Notes
 - ESP32 is powered by 5V through the onboard voltage regulator
 - The DC motor is powered by a separate 5V DC supply to reduce noise and voltage drops
 - An NPN BJT is used as a low-side switch for PWM motor control; a logic-level MOSFET is recommended for higher efficiency and lower power dissipation
 - ESP32 and motor power supplies share a common ground reference
 - Flyback diode is placed across the DC motor to protect the switching device from inductive voltage spikes
   
-## Code Structure
+### 5. Code Structure
 The code is built using FreeRTOS structured into multiple tasks for concurrent operation. Since the module has dual-core, tasks are distributed across both cores to improve responsiveness and real-time performance
 - Sensor Task: Periodically reads temperature and humidity data from the DHT11 sensor
 - Motor Control Task: Controls the DC motor speed using PWM and handles operating modes
 - Bluetooth Task: Manages Bluetooth Classic communication with the Flutter application
 - Status Task: Handles LED status indicators
   
-**Note:** DHT Library "DHTesp" is optimized for RTOS, to avoid watchdog (WDT) reset, Guru Meditation Error, and core panic
+### 6. Communication 
+The module uses Bluetooth Serial for sending and receiving data
+#### Received from App
+| Command | Action |
+| :------ | :------ |
+| M0 | OFF |
+| Mx (x=1,2,3) | Set Fan at Level x |
+| P | Switch to Manual/Automation |
+
+#### Sending to App
+2 variables: `temper` and `humid` 
+
+## III. Installation & Setup
+### 1. Module Configuration
+- IDE: Arduino IDE
+- Board Selection: Node32s 
+- Required Libraries:
+  - `BluetoothSerial` built-in 
+  - `DHTesp` by BeegeeTokyo 
+- Select the correct COM port and Board
+- Run
+### 2. Mobile App Setup 
+- Check `pubspec.yaml` for environment version constraint
+  - `cd app/` <br>
+  - `flutter pub get`
+- Ensure `AndroidManifest.xml` includes Bluetooth & Location permissions 
+  - `flutter run`
